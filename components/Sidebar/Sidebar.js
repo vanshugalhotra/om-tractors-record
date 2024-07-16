@@ -20,6 +20,8 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { FaTractor } from "react-icons/fa";
 import { PiTractorBold } from "react-icons/pi";
 import { ImBooks } from "react-icons/im";
+import { SiBrandfolder } from "react-icons/si";
+import { MdOutlineBrandingWatermark } from "react-icons/md";
 
 const SidebarItem = ({ name, MenuIcon, url }) => {
   const { linkClick } = useSidebar();
@@ -77,6 +79,8 @@ const Sidebar = ({}) => {
     windowWidth,
     showRecordsSubMenu,
     toggleRecordsSubMenu,
+    showBrandSubMenu,
+    toggleBrandSubMenu,
     showTypeSubMenu,
     toggleTypeSubMenu,
   } = useSidebar();
@@ -120,6 +124,18 @@ const Sidebar = ({}) => {
       name: "Show Types",
       icon: PiTractorBold,
       url: "/types",
+    },
+  ];
+  const brandSubMenu = [
+    {
+      name: "Add Brand",
+      icon: IoIosAdd,
+      url: "/addbrand",
+    },
+    {
+      name: "Show Brands",
+      icon: MdOutlineBrandingWatermark,
+      url: "/brands",
     },
   ];
 
@@ -230,6 +246,43 @@ const Sidebar = ({}) => {
                   }`}
                 >
                   {typeSubMenu.map(({ name, icon, url }) => (
+                    <SubMenu key={name} name={name} MenuIcon={icon} url={url} />
+                  ))}
+                </motion.ul>
+                {/* brands*/}
+                <li>
+                  <div
+                    className={`sidebar-nav-link`}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      toggleBrandSubMenu();
+                    }}
+                    id="brands"
+                  >
+                    <SiBrandfolder className="h-6 w-6 min-w-max" />
+                    <p className="sidebar-nav-link-p">Brand</p>
+                    <IoIosArrowDown
+                      className={` ${
+                        showBrandSubMenu && "rotate-180"
+                      } duration-200 ml-auto`}
+                    />
+                  </div>
+                </li>
+                <motion.ul
+                  animate={
+                    showBrandSubMenu
+                      ? {
+                          height: "fit-content",
+                        }
+                      : {
+                          height: 0,
+                        }
+                  }
+                  className={`flex h-0 flex-col pl-14 text-[0.8rem] font-normal overflow-hidden ${
+                    isSidebarOpen ? "" : "!hidden"
+                  }`}
+                >
+                  {brandSubMenu.map(({ name, icon, url }) => (
                     <SubMenu key={name} name={name} MenuIcon={icon} url={url} />
                   ))}
                 </motion.ul>

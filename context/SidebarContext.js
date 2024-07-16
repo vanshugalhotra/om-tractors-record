@@ -11,6 +11,7 @@ export const SidebarProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showRecordsSubMenu, setShowRecordsSubMenu] = useState(true);
   const [showTypeSubMenu, setShowTypeSubMenu] = useState(true);
+  const [showBrandSubMenu, setShowBrandSubMenu] = useState(true);
   const sideBarData = {
     sideBarOpenWidth: "20vw",
     sideBarCloseWidth: "4vw",
@@ -28,6 +29,10 @@ export const SidebarProvider = ({ children }) => {
 
   const toggleTypeSubMenu = () => {
     setShowTypeSubMenu(!showTypeSubMenu);
+  };
+
+  const toggleBrandSubMenu = () => {
+    setShowBrandSubMenu(!showBrandSubMenu);
   };
 
   const linkClick = () => {
@@ -48,6 +53,8 @@ export const SidebarProvider = ({ children }) => {
         showRecordsSubMenu,
         showTypeSubMenu,
         toggleTypeSubMenu,
+        showBrandSubMenu,
+        toggleBrandSubMenu,
         sideBarData,
         windowWidth,
         toggleSideBar,
