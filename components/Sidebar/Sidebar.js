@@ -13,14 +13,13 @@ import {
   IoIosArrowDown,
   IoIosLogOut,
   IoIosAdd,
+  IoIosCopy,
+  IoIosCreate,
+  IoIosApps
 } from "react-icons/io";
 import { MdMenuBook, MdOutlineBrandingWatermark } from "react-icons/md";
-import { BiSolidBookAdd } from "react-icons/bi";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FaTractor } from "react-icons/fa";
-import { PiTractorBold } from "react-icons/pi";
-import { ImBooks } from "react-icons/im";
-import { SiBrandfolder } from "react-icons/si";
 
 const SidebarItem = ({ name, MenuIcon, url }) => {
   const { linkClick } = useSidebar();
@@ -104,7 +103,7 @@ const Sidebar = ({}) => {
   const recordsSubMenu = [
     {
       name: "Add Record",
-      icon: BiSolidBookAdd,
+      icon: IoIosCreate,
       url: "/addrecord",
     },
     {
@@ -121,7 +120,7 @@ const Sidebar = ({}) => {
     },
     {
       name: "Show Types",
-      icon: PiTractorBold,
+      icon: FaTractor,
       url: "/types",
     },
   ];
@@ -183,7 +182,7 @@ const Sidebar = ({}) => {
                     }}
                     id="records"
                   >
-                    <ImBooks className="h-6 w-6 min-w-max" />
+                    <IoIosCopy className="h-6 w-6 min-w-max" />
                     <p className="sidebar-nav-link-p">Records</p>
                     <IoIosArrowDown
                       className={` ${
@@ -258,7 +257,7 @@ const Sidebar = ({}) => {
                     }}
                     id="brands"
                   >
-                    <SiBrandfolder className="h-6 w-6 min-w-max" />
+                    <IoIosApps className="h-6 w-6 min-w-max" />
                     <p className="sidebar-nav-link-p">Brand</p>
                     <IoIosArrowDown
                       className={` ${
