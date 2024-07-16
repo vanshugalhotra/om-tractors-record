@@ -10,41 +10,40 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useLoading } from "@/context/LoadingContext";
 import BlobUpload from "@/components/Form/BlobUpload";
 import Loading from "@/components/Loading/Loading";
+import ColorPicker from "@/components/Form/ColorPicker";
 
-const AddBrand = () => {
+const AddType = () => {
   const { marginForSidebar } = useSidebar();
   const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
 
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [brandName, setBrandName] = useState(
-    searchParams.get("encoded_name") ?? ""
-  );
+  const [type, setType] = useState(searchParams.get("encoded_type") ?? "");
 
-  const [logo, setLogo] = useState("");
+  const [color, setColor] = useState("#fffff");
 
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
   const submit = async () => {
     try {
       startLoading();
-      if (!brandName) {
-        raiseToast("error", "Brand Name is required!!");
+      if (!type) {
+        raiseToast("error", "Type is required!!");
         return;
       }
       const data = {
-        name: brandName,
-        logo: logo,
+        name: type,
+        color: color,
       };
 
       let METHOD = "POST";
-      let api = "/api/brand/addbrand";
+      let api = "/api/type/addtype";
 
       if (_id) {
         // if it is an update request
         METHOD = "PATCH";
-        api = "/api/brand/updatebrand";
+        api = "/api/type/updatetype";
         data._id = _id;
       }
 
@@ -52,14 +51,14 @@ const AddBrand = () => {
       const response = await postData(METHOD, data, api);
       if (response.success) {
         let message = _id
-          ? "Brand Updated Successfully!!"
-          : "Brand Added Successfully!!";
+          ? "Type Updated Successfully!!"
+          : "Type Added Successfully!!";
         raiseToast("success", message);
         setTimeout(() => {
           router.push("/");
         }, 1500);
       } else {
-        raiseToast("info", "Brand Already Exists!!");
+        raiseToast("info", "Type Already Exists!!");
       }
     } catch (error) {
       raiseToast("error", error.message);
@@ -74,30 +73,30 @@ const AddBrand = () => {
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
-            Add Brand
+            Add Type
           </h2>
           <p className="text-xs text-gray-600 py-1 tracking-wide">
-            Add New Brand
+            Add New Type
           </p>
         </div>
       </div>
       <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
         <div className="inputs grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
-          {/* Brand Name*/}
-          <div className="lg:col-span-4">
+          {/* Type Name*/}
+          <div className="lg:col-span-2">
             <InputContainer
-              label={"Brand Name"}
-              value={brandName}
+              label={"Type (Tractor)"}
+              value={type}
               onChange={(event) => {
-                setBrandName(event.target.value);
+                setType(event.target.value);
               }}
               fullWidth={true}
             />
           </div>
 
-          {/* Logo */}
-          <div className="input-item lg:col-span-4 md:col-span-1 z-0">
-            <BlobUpload name={"Logo"} setState={setLogo} imageVar={logo} />
+          {/* Color */}
+          <div className="lg:col-span-2">
+            <ColorPicker color={color} setColor={setColor} label={"Pick A Color"} />
           </div>
         </div>
         <div className="control-buttons mx-4 my-4">
@@ -119,4 +118,4 @@ const AddBrand = () => {
   );
 };
 
-export default AddBrand;
+export default AddType;

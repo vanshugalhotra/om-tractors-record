@@ -14,14 +14,13 @@ import {
   IoIosLogOut,
   IoIosAdd,
 } from "react-icons/io";
-import { MdMenuBook } from "react-icons/md";
+import { MdMenuBook, MdOutlineBrandingWatermark } from "react-icons/md";
 import { BiSolidBookAdd } from "react-icons/bi";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FaTractor } from "react-icons/fa";
 import { PiTractorBold } from "react-icons/pi";
 import { ImBooks } from "react-icons/im";
 import { SiBrandfolder } from "react-icons/si";
-import { MdOutlineBrandingWatermark } from "react-icons/md";
 
 const SidebarItem = ({ name, MenuIcon, url }) => {
   const { linkClick } = useSidebar();
