@@ -24,11 +24,15 @@ const productSchema = new mongoose.Schema(
     },
     amount: {
       type: Number,
-      required: true,
+    },
+    code: {
+      type: String,
     },
     description: {
       type: String,
-      required: true,
+    },
+    lastUpdated: {
+      type: Date,
     },
   },
   {
