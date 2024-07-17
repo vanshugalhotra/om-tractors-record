@@ -8,37 +8,38 @@ import { formatDate, raiseToast } from "@/utils/utilityFuncs";
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
 import { FaRegEye } from "react-icons/fa";
+import Image from "next/image";
 
 const LoanDetails = () => {
   const searchParams = useSearchParams();
-  const [typedetails, setTypedetails] = useState({});
+  const [branddetails, setBrandDetails] = useState({});
   const [productdetails, setProductdetails] = useState([]);
 
   const { marginForSidebar } = useSidebar();
   const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
 
   useEffect(() => {
-    const fetchTypeDetails = async () => {
+    const fetchBrandDetails = async () => {
       startLoading();
       try {
-        const api = `/api/type/gettypedetails?_id=${searchParams.get("_id")}`;
-        const type = await fetchData(api);
-        setTypedetails(type.type);
+        const api = `/api/brand/getbranddetails?_id=${searchParams.get("_id")}`;
+        const brand = await fetchData(api);
+        setBrandDetails(brand.brand);
       } catch (error) {
-        console.error("Error fetching type details:", error);
+        console.error("Error fetching brand details:", error);
         // Handle error if needed
       } finally {
         stopLoading();
       }
     };
 
-    fetchTypeDetails(); // Invoke the async function to fetch data
+    fetchBrandDetails(); // Invoke the async function to fetch data
   }, [searchParams]);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const api = `/api/product/getproducts?search=${typedetails.name}`;
+        const api = `/api/product/getproducts?search=${branddetails.name}`;
         const response = await fetchData(api);
         if (!response) {
           return;
@@ -52,12 +53,21 @@ const LoanDetails = () => {
     };
 
     fetchProductDetails();
-  }, [typedetails.name]);
+  }, [branddetails.name]);
 
-  const typeFields = [
+  const brandFields = [
     {
-      title: "Type (Tractor)",
-      value: typedetails.name,
+      title: "Brand Name",
+      value: branddetails.name,
+    },
+  ];
+
+  const images = [
+    {
+      title: "Brand Image",
+      src: branddetails.logo
+        ? branddetails.logo
+        : "/assets/images/default/brand.svg",
     },
   ];
 
@@ -67,24 +77,23 @@ const LoanDetails = () => {
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
-            Type Details
+            Brand Details
           </h2>
           <p className="text-sm text-gray-600 py-1 tracking-wide">
-            Full Details of Type
+            Full Details of Details
           </p>
         </div>
       </div>
       <div className="my-8 brands-card rounded-lg border border-gray-200 border-opacity-70 pb-8 shadow-sm">
         <div className="product-details outline-none py-8 px-6 border-none flex md:flex-row flex-col">
-          <div className="w-full">
-            <ul className="w-full border-b">
-              {typeFields.map(({ title, value }, index) => (
+          <div className="">
+            <ul className="md:w-2/3 border-b">
+              {brandFields.map(({ title, value }, index) => (
                 <li
                   className={`product-details-item ${
                     index % 2 === 1 ? "bg-gray-100" : ""
                   }`}
                   key={index}
-                  style={{ backgroundColor: typedetails.color }}
                 >
                   <h4 className="product-details-title">{title}</h4>
                   <h6 className="product-details-value">{value}</h6>
@@ -93,12 +102,12 @@ const LoanDetails = () => {
             </ul>
 
             <div className="px-4 my-10">
-            <div className="text-2xl font-bold py-5 text-center text-gray-800 dark:text-gray-200">
+              <div className="text-2xl font-bold py-5 text-center text-gray-800 dark:text-gray-200">
                 Products Related To{" "}
                 <span className="bg-yellow-200 px-2 rounded text-gray-900 dark:text-gray-900">
-                  {typedetails.name}
+                  {branddetails.name}
                 </span>{" "}
-                Tractor
+                Brand
               </div>
 
               <div className="relative overflow-x-auto">
@@ -196,6 +205,20 @@ const LoanDetails = () => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="product-image-container relative md:w-1/3 mx-4 flex flex-col justify-start rounded-lg border border-gray-200 border-opacity-70 shadow-sm cursor-pointer max-h-screen overflow-y-auto">
+            {images.map((image, index) => (
+              <div key={index} className="product-image mx-2 my-4">
+                <h3 className="text-center mb-2">{image.title}</h3>
+                <Image
+                  src={image.src}
+                  alt={`${image.title}`}
+                  width={400}
+                  height={150}
+                  className="rounded-lg"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
