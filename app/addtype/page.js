@@ -8,7 +8,6 @@ import { raiseToast } from "@/utils/utilityFuncs";
 import { postData } from "@/utils/dbFuncs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLoading } from "@/context/LoadingContext";
-import BlobUpload from "@/components/Form/BlobUpload";
 import Loading from "@/components/Loading/Loading";
 import ColorPicker from "@/components/Form/ColorPicker";
 
@@ -21,7 +20,7 @@ const AddType = () => {
 
   const [type, setType] = useState(searchParams.get("encoded_type") ?? "");
 
-  const [color, setColor] = useState("#fffff");
+  const [color, setColor] = useState(searchParams.get("encoded_color") ?? "#fffff");
 
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 

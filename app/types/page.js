@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchData } from "@/utils/dbFuncs";
 import { debounce } from "lodash";
-import Image from "next/image";
 
 import { IoAddOutline } from "react-icons/io5";
 import { FaRegEye, FaRegTrashAlt, FaSearch, FaEdit } from "react-icons/fa";
@@ -15,35 +14,35 @@ import { FaRegEye, FaRegTrashAlt, FaSearch, FaEdit } from "react-icons/fa";
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
 
-const Brands = () => {
+const Types = () => {
   const { marginForSidebar } = useSidebar();
   const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
   const [searchQuery, setSearchQuery] = useState("");
-  const [brands, setBrands] = useState([]);
+  const [types, setTypes] = useState([]);
 
   const router = useRouter();
 
   useEffect(() => {
-    const fetchInitialBrands = async () => {
+    const fetchInitialTypes = async () => {
       try {
-        const api = "/api/brand/getbrands";
-        const initialBrands = await fetchData(api);
-        setBrands(initialBrands); // Set state with fetched data
+        const api = "/api/type/gettypes";
+        const inittypes = await fetchData(api);
+        setTypes(inittypes); // Set state with fetched data
       } catch (error) {
-        console.error("Error fetching initial Brands:", error);
+        console.error("Error fetching initial Types:", error);
         // Handle error if needed
       }
     };
 
-    fetchInitialBrands(); // Invoke the async function to fetch data
+    fetchInitialTypes(); // Invoke the async function to fetch data
   }, []); // Empty dependency array ensures it runs only once after initial render
 
   // REACT STUFF
   useEffect(() => {
     const fetchResults = debounce(async () => {
-      const api = `/api/brand/getbrands?search=${searchQuery}`;
+      const api = `/api/type/gettypes?search=${searchQuery}`;
       const results = await fetchData(api);
-      setBrands(results);
+      setTypes(results);
     }, 500); // Adjust the debounce delay as needed
 
     fetchResults();
@@ -53,10 +52,11 @@ const Brands = () => {
     setSearchQuery(event.target.value);
   };
 
-  const handleUpdate = async (_id, name) => {
+  const handleUpdate = async (_id, name, color) => {
     const data = {
       _id,
-      name,
+      type: name,
+      color,
     };
     const queryParams = Object.keys(data)
       .map((key) => {
@@ -66,7 +66,7 @@ const Brands = () => {
       })
       .join("&");
 
-    const url = `/addbrand?${queryParams}`;
+    const url = `/addtype?${queryParams}`;
 
     router.push(url);
   };
@@ -77,15 +77,13 @@ const Brands = () => {
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
-            Brands
+            Types
           </h2>
-          <p className="text-sm text-gray-600 py-1 tracking-wide">
-            Your Brands
-          </p>
+          <p className="text-sm text-gray-600 py-1 tracking-wide">Your Types</p>
         </div>
-        <Link className="right-btn icon-btn" href={"/addbrand"}>
+        <Link className="right-btn icon-btn" href={"/addtype"}>
           <IoAddOutline className="w-6 h-6 text-white font-medium" />
-          <span className="text-white font-medium px-2 text-lg">Add Brand</span>
+          <span className="text-white font-medium px-2 text-lg">Add Type</span>
         </Link>
       </div>
       <div className="my-8 rounded-lg border-2 border-gray-200 border-opacity-70 pb-8 shadow-sm">
@@ -112,10 +110,10 @@ const Brands = () => {
                     Sr No.
                   </th>
                   <th scope="col" className="table-heading">
-                    Logo
+                    Color
                   </th>
                   <th scope="col" className="table-heading">
-                    Brand Name
+                    Type Name (Tractor)
                   </th>
                   <th scope="col" className="table-heading">
                     Action
@@ -123,8 +121,8 @@ const Brands = () => {
                 </tr>
               </thead>
               <tbody>
-                {brands.length &&
-                  brands.map(({ _id, name, logo }, index) => {
+                {types.length &&
+                  types.map(({ _id, name, color }, index) => {
                     return (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -138,19 +136,10 @@ const Brands = () => {
                           className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {name && (
-                            <Image
-                              alt="Upload"
-                              className="w-16 h-16"
-                              layout="fixed"
-                              width={58}
-                              height={58}
-                              objectFit="cover"
-                              src={
-                                !logo
-                                  ? "/assets/images/default/brand.svg"
-                                  : logo
-                              }
-                            />
+                            <div
+                              class="w-16 h-16 border border-gray-300 rounded-lg"
+                              style={{ backgroundColor: color }}
+                            ></div>
                           )}
                         </th>
                         <td className="table-data">{name}</td>
@@ -158,7 +147,7 @@ const Brands = () => {
                           <div
                             className="action-icon"
                             onClick={() => {
-                              router.push(`/branddetails?_id=${_id}`);
+                              router.push(`/typedetails?_id=${_id}`);
                             }}
                           >
                             <FaRegEye className="normal-icon" />
@@ -166,7 +155,7 @@ const Brands = () => {
                           <div
                             className="action-icon"
                             onClick={() => {
-                              handleUpdate(_id, name);
+                              handleUpdate(_id, name, color);
                             }}
                           >
                             <FaEdit className="normal-icon mx-1" />
@@ -187,4 +176,4 @@ const Brands = () => {
   );
 };
 
-export default Brands;
+export default Types;
