@@ -26,10 +26,14 @@ const AddProduct = () => {
     searchParams.get("encoded_partNumber") ?? ""
   );
   const [type, setType] = useState(searchParams.get("encoded_type") ?? "");
-  const [typeID, setTypeID] = useState(null);
+  const [typeID, setTypeID] = useState(
+    searchParams.get("encoded_typeID") ?? null
+  );
   const [fetchedTypes, setFetchedTypes] = useState([]);
   const [brand, setBrand] = useState(searchParams.get("encoded_brand") ?? "");
-  const [brandID, setBrandID] = useState(null);
+  const [brandID, setBrandID] = useState(
+    searchParams.get("encoded_brandID") ?? null
+  );
   const [fetchedBrands, setFetchedBrands] = useState([]);
   const [amount, setAmount] = useState(searchParams.get("encoded_amount") ?? 0);
 
@@ -37,9 +41,7 @@ const AddProduct = () => {
   const [description, setDescription] = useState(
     searchParams.get("encoded_description") ?? ""
   );
-  const [lastUpdated, setLastUpdated] = useState(
-    searchParams.get("encoded_lastUpdated") ?? new Date()
-  );
+  const [lastUpdated, setLastUpdated] = useState(new Date());
 
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
