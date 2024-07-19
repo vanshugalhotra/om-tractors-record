@@ -13,13 +13,16 @@ import { FaRegEye, FaRegTrashAlt, FaSearch, FaEdit } from "react-icons/fa";
 
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
-import { formatDate } from "@/utils/utilityFuncs";
+import { formatDate, raiseToast } from "@/utils/utilityFuncs";
+import ConfirmationModal from "@/components/Modal/ConfirmationModal";
 
 const Records = () => {
   const { marginForSidebar } = useSidebar();
   const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
+  const [selectedProductID, setSelectedProductID] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const router = useRouter();
 
@@ -87,6 +90,40 @@ const Records = () => {
     const url = `/addrecord?${queryParams}`;
 
     router.push(url);
+  };
+
+  const handleDelete = async (_id) => {
+    setSelectedProductID(_id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const response = await fetch(
+        `/api/product/deleteproduct?_id=${selectedProductID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        raiseToast("success", "Product Deleted Successfully!!");
+        // Optionally, refresh the product list or handle successful deletion
+      } else {
+        raiseToast(
+          "error",
+          `Failed to delete the product due to ${response.statusText}`
+        );
+      }
+    } catch (error) {
+      raiseToast("error", `Failed to delete the product : ${error}`);
+    } finally {
+      router.refresh();
+    }
   };
 
   return (
@@ -200,7 +237,7 @@ const Records = () => {
                             <div
                               className="action-icon"
                               onClick={() => {
-                                router.push(`/typedetails?_id=${_id}`);
+                                router.push(`/recorddetails?_id=${_id}`);
                               }}
                             >
                               <FaRegEye className="normal-icon" />
@@ -216,13 +253,18 @@ const Records = () => {
                                   type,
                                   brand,
                                   code,
-                                  description,
+                                  description
                                 );
                               }}
                             >
                               <FaEdit className="normal-icon mx-1" />
                             </div>
-                            <div className="inline-block text-red-500 up-icon hover:text-red-700">
+                            <div
+                              className="inline-block text-red-500 up-icon hover:text-red-700"
+                              onClick={() => {
+                                handleDelete(_id);
+                              }}
+                            >
                               <FaRegTrashAlt className="normal-icon" />
                             </div>
                           </td>
@@ -235,6 +277,12 @@ const Records = () => {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        onConfirm={confirmDelete}
+        message="Are you sure you want to delete the product, This action cannot be undone."
+      />
     </section>
   );
 };

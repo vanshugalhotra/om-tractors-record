@@ -9,7 +9,7 @@ import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
 import { FaRegEye } from "react-icons/fa";
 
-const LoanDetails = () => {
+const TypeDetails = () => {
   const searchParams = useSearchParams();
   const [typedetails, setTypedetails] = useState({});
   const [productdetails, setProductdetails] = useState([]);
@@ -203,4 +203,4 @@ const LoanDetails = () => {
   );
 };
 
-export default LoanDetails;
+export default TypeDetails;
