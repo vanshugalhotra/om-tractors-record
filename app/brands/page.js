@@ -9,8 +9,7 @@ import { fetchData } from "@/utils/dbFuncs";
 import { debounce } from "lodash";
 import Image from "next/image";
 
-import { IoAddOutline } from "react-icons/io5";
-import { FaRegEye, FaRegTrashAlt, FaSearch, FaEdit } from "react-icons/fa";
+import { FaRegEye, FaRegTrashAlt, FaSearch, FaEdit, FaPlus } from "react-icons/fa";
 
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
@@ -84,7 +83,7 @@ const Brands = () => {
           </p>
         </div>
         <Link className="right-btn icon-btn" href={"/addbrand"}>
-          <IoAddOutline className="w-6 h-6 text-white font-medium" />
+          <FaPlus className="w-6 h-6 text-white font-medium" />
           <span className="text-white font-medium px-2 text-lg">Add Brand</span>
         </Link>
       </div>

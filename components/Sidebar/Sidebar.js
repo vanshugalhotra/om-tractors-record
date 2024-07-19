@@ -16,9 +16,10 @@ import {
   IoIosCopy,
   IoIosCreate,
   IoIosApps,
+  IoLogoBuffer,
+  IoMdDesktop,
+  IoMdPodium
 } from "react-icons/io";
-import { MdMenuBook, MdOutlineBrandingWatermark } from "react-icons/md";
-import { LuLayoutDashboard } from "react-icons/lu";
 import { FaTractor } from "react-icons/fa";
 
 const SidebarItem = ({ name, MenuIcon, url }) => {
@@ -108,7 +109,7 @@ const Sidebar = ({ handleLogout }) => {
     },
     {
       name: "Show Records",
-      icon: MdMenuBook,
+      icon: IoLogoBuffer,
       url: "/records",
     },
   ];
@@ -132,7 +133,7 @@ const Sidebar = ({ handleLogout }) => {
     },
     {
       name: "Show Brands",
-      icon: MdOutlineBrandingWatermark,
+      icon: IoMdPodium,
       url: "/brands",
     },
   ];
@@ -168,7 +169,7 @@ const Sidebar = ({ handleLogout }) => {
                 {/* dashboard */}
                 <SidebarItem
                   name="Dashboard"
-                  MenuIcon={LuLayoutDashboard}
+                  MenuIcon={IoMdDesktop}
                   url="/"
                 />
 

@@ -8,8 +8,7 @@ import Link from "next/link";
 import { fetchData } from "@/utils/dbFuncs";
 import { debounce } from "lodash";
 
-import { IoAddOutline } from "react-icons/io5";
-import { FaRegEye, FaRegTrashAlt, FaSearch, FaEdit } from "react-icons/fa";
+import { FaRegEye, FaRegTrashAlt, FaSearch, FaEdit, FaPlus } from "react-icons/fa";
 
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
@@ -82,7 +81,7 @@ const Types = () => {
           <p className="text-sm text-gray-600 py-1 tracking-wide">Your Types</p>
         </div>
         <Link className="right-btn icon-btn" href={"/addtype"}>
-          <IoAddOutline className="w-6 h-6 text-white font-medium" />
+          <FaPlus className="w-6 h-6 text-white font-medium" />
           <span className="text-white font-medium px-2 text-lg">Add Type</span>
         </Link>
       </div>
