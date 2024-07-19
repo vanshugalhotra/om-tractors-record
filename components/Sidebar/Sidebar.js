@@ -15,7 +15,7 @@ import {
   IoIosAdd,
   IoIosCopy,
   IoIosCreate,
-  IoIosApps
+  IoIosApps,
 } from "react-icons/io";
 import { MdMenuBook, MdOutlineBrandingWatermark } from "react-icons/md";
 import { LuLayoutDashboard } from "react-icons/lu";
@@ -69,7 +69,7 @@ const SubMenu = ({ name, MenuIcon, url }) => {
   );
 };
 
-const Sidebar = ({}) => {
+const Sidebar = ({ handleLogout }) => {
   const {
     isSidebarOpen,
     toggleSideBar,
@@ -285,7 +285,11 @@ const Sidebar = ({}) => {
                   ))}
                 </motion.ul>
 
-                <li>
+                <li
+                  onClick={() => {
+                    handleLogout();
+                  }}
+                >
                   <Link className={`sidebar-nav-link`} href={"/"} id="logout">
                     <IoIosLogOut className="h-6 w-6 min-w-max" />
                     <p className="sidebar-nav-link-p">Logout</p>
