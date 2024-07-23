@@ -127,8 +127,16 @@ const AddProduct = () => {
           : "Product Added Successfully!!";
         raiseToast("success", message);
         setTimeout(() => {
+          setProductName("");
+          setPartNumber("");
+          setType("");
+          setTypeID("");
+          setBrand("");
+          setBrandID("");
+          setAmount(0);
+          setCode("");
+          setDescription("");
           router.push("/addrecord");
-          router.refresh();
         }, 1500);
       } else {
         raiseToast("info", "Product Already Exists!!");
@@ -256,7 +264,7 @@ const AddProduct = () => {
             Submit
           </div>
           <Link
-            href={"/"}
+            href={"/addrecord"}
             className="primary-btn bg-gray-500 hover:bg-gray-600"
           >
             Cancel
