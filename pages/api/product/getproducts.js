@@ -44,7 +44,8 @@ const handler = async (req, res) => {
         .populate({
           path: "brand",
           select: "name", // Specify the fields you want to populate for brand
-        });
+        })
+        .sort({ createdAt: -1 }); // Sort by createdAt in descending order
 
       if (parsedLimit) {
         productsQuery = productsQuery.limit(parsedLimit); // Apply the limit if it's provided
