@@ -9,12 +9,12 @@ export default function Home() {
     <main className="overflow-hidden" style={{ marginLeft: marginForSidebar }}>
       <Image
         alt="Om Tractors"
-        className="w-[95vw] h-[94vh]"
+        className="w-[100vw] h-[94vh]"
         layout="fixed"
         width={1000}
         height={1000}
         objectFit="cover"
-        src={`/assets/images/background/dash.jpg`}
+        src={`/assets/images/background/mangat.jpg`}
       />
     </main>
   );

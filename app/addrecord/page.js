@@ -180,7 +180,7 @@ const AddProduct = () => {
           {/* Type */}
           <div className="lg:col-span-1">
             <SuggestionInputWithID
-              label={"Type"}
+              label={"Tractor Type"}
               value={type}
               fullWidth={true}
               suggestions={fetchedTypes}
@@ -190,7 +190,7 @@ const AddProduct = () => {
           {/* Brand*/}
           <div className="lg:col-span-1">
             <SuggestionInputWithID
-              label={"Brand Name"}
+              label={"Brand Name (Company)"}
               value={brand}
               fullWidth={true}
               suggestions={fetchedBrands}
@@ -212,7 +212,7 @@ const AddProduct = () => {
           {/* Code*/}
           <div className="lg:col-span-1">
             <InputContainer
-              label={"Code"}
+              label={"Purchase Code"}
               value={code}
               onChange={(event) => {
                 setCode(event.target.value);

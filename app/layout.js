@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
                 theme="light"
               />
               {children}
-              <section className="my-[20vh]"></section>
+              <section className="my-[10vh]"></section>
             </Layout>
           </SidebarProvider>
         </LoadingProvider>

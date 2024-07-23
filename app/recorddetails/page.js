@@ -54,15 +54,15 @@ const RecordDetails = () => {
         value: formatDate(productdetails.lastUpdated),
       },
       {
-        title: "Type",
+        title: "Tractor Type",
         value: productdetails.type.name,
       },
       {
-        title: "Brand",
+        title: "Brand (Company) ",
         value: productdetails.brand.name,
       },
       {
-        title: "Code",
+        title: "Purchase Code",
         value: productdetails.code,
       },
       {
