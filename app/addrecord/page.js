@@ -129,10 +129,6 @@ const AddProduct = () => {
         setTimeout(() => {
           setProductName("");
           setPartNumber("");
-          setType("");
-          setTypeID("");
-          setBrand("");
-          setBrandID("");
           setAmount(0);
           setCode("");
           setDescription("");
