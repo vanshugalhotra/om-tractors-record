@@ -8,6 +8,7 @@ import { formatDate, raiseToast } from "@/utils/utilityFuncs";
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
 import { FaRegEye } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const TypeDetails = () => {
   const searchParams = useSearchParams();
@@ -16,6 +17,7 @@ const TypeDetails = () => {
 
   const { marginForSidebar } = useSidebar();
   const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTypeDetails = async () => {
@@ -93,7 +95,7 @@ const TypeDetails = () => {
             </ul>
 
             <div className="px-4 my-10">
-            <div className="text-2xl font-bold py-5 text-center text-gray-800 dark:text-gray-200">
+              <div className="text-2xl font-bold py-5 text-center text-gray-800 dark:text-gray-200">
                 Products Related To{" "}
                 <span className="bg-yellow-200 px-2 rounded text-gray-900 dark:text-gray-900">
                   {typedetails.name}

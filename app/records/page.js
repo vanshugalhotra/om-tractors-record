@@ -28,7 +28,7 @@ const Records = () => {
   useEffect(() => {
     const fetchInitialProducts = async () => {
       try {
-        const api = "/api/product/getproducts";
+        const api = "/api/product/getproducts?limit=10";
         const initProducts = await fetchData(api);
         setProducts(initProducts); // Set state with fetched data
       } catch (error) {

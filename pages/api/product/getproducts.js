@@ -6,7 +6,8 @@ import connectDb from "@/db/mongoose";
 const handler = async (req, res) => {
   if (req.method === "GET") {
     try {
-      const { search } = req.query;
+      const { search, limit } = req.query;
+      const parsedLimit = parseInt(limit) || 10; // Default to 10 if limit is not provided or invalid
 
       const typeQuery = search
         ? { name: { $regex: search, $options: "i" } }
@@ -43,7 +44,8 @@ const handler = async (req, res) => {
         .populate({
           path: "brand",
           select: "name", // Specify the fields you want to populate for brand
-        });
+        })
+        .limit(parsedLimit); // Apply the limit
 
       res.status(200).json(products);
     } catch (error) {

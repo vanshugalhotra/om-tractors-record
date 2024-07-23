@@ -9,11 +9,14 @@ import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
 import { FaRegEye } from "react-icons/fa";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const LoanDetails = () => {
   const searchParams = useSearchParams();
   const [branddetails, setBrandDetails] = useState({});
   const [productdetails, setProductdetails] = useState([]);
+
+  const router = useRouter();
 
   const { marginForSidebar } = useSidebar();
   const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
