@@ -127,7 +127,7 @@ const AddProduct = () => {
           : "Product Added Successfully!!";
         raiseToast("success", message);
         setTimeout(() => {
-          router.push("/");
+          router.push("/addrecord");
         }, 1500);
       } else {
         raiseToast("info", "Product Already Exists!!");

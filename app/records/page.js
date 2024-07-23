@@ -58,8 +58,8 @@ const Records = () => {
   const handleUpdate = async (
     _id,
     productName,
-    partNumber,
     amount,
+    partNumber,
     type,
     brand,
     code,
