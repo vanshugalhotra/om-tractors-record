@@ -43,6 +43,8 @@ const AddProduct = () => {
   );
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
+  const [productCount, setProductCount] = useState("");
+
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
   const handleDateChange = (date) => {
@@ -77,6 +79,20 @@ const AddProduct = () => {
 
     fetchInitialBrands(); // Invoke the async function to fetch data
   }, []); // Empty dependency array ensures this runs once on mount
+
+  useEffect(() => {
+    const fetchProductCount = async () => {
+      try {
+        const response = await fetchData("/api/product/getproductcount");
+        setProductCount(response.totalProducts);
+      } catch (error) {
+        console.error("Error fetching product count:", error);
+        raiseToast("error", error.message);
+      }
+    };
+
+    fetchProductCount();
+  }, []);
 
   const submit = async () => {
     try {
@@ -149,7 +165,7 @@ const AddProduct = () => {
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
       {loading && <Loading />}
-      <div className="top flex items-center justify-between">
+      <div className="top flex items-center justify-between md:flex-row flex-col">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
             Add Product
@@ -157,6 +173,11 @@ const AddProduct = () => {
           <p className="text-xs text-gray-600 py-1 tracking-wide">
             Add New Product
           </p>
+        </div>
+        <div className="right mt-4 md:m-0">
+          <h3 className="text-lg text-gray-700 font-semibold">
+            Products: <span className="text-7xl">{productCount}</span>
+          </h3>
         </div>
       </div>
       <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
