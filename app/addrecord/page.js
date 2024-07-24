@@ -159,6 +159,7 @@ const AddProduct = () => {
       console.log(error.message);
     } finally {
       stopLoading();
+      router.refresh();
     }
   };
 
