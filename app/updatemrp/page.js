@@ -7,7 +7,7 @@ import Link from "next/link";
 import { raiseToast } from "@/utils/utilityFuncs";
 import { useRouter } from "next/navigation";
 import { useLoading } from "@/context/LoadingContext";
-import BlobUpload from "@/components/Form/BlobUpload";
+import { postData } from "@/utils/dbFuncs";
 import Loading from "@/components/Loading/Loading";
 import DobPicker from "@/components/Form/DobPicker";
 
@@ -29,6 +29,34 @@ const UpdateMRP = () => {
   const submit = async () => {
     try {
       startLoading();
+
+      // Ensure all required fields are provided
+      if (!nameField || !mrpField || !file || !date) {
+        raiseToast("error", "All fields are required!");
+        return;
+      }
+
+      // Prepare the data to send
+      const data = {
+        nameField,
+        mrpField,
+        fileName: file, // Name of the file you placed in the public directory
+        date,
+      };
+
+      // Use the postData function to submit the data
+      const result = await postData("POST", data, "/api/updatemrp");
+
+      // Check if the response was successful
+      if (result.success) {
+        raiseToast(
+          "success",
+          `MRP updated successfully!\nTotal Records Updated: ${result.updatedCount}`
+        );
+        router.push("/");
+      } else {
+        raiseToast("error", result.error || "Something went wrong!");
+      }
     } catch (error) {
       raiseToast("error", error.message);
     } finally {
@@ -54,7 +82,7 @@ const UpdateMRP = () => {
           {/* Name Field*/}
           <div className="lg:col-span-1">
             <InputContainer
-              label={"Product Name Field"}
+              label={"Part Number Field"}
               value={nameField}
               onChange={(event) => {
                 setNameField(event.target.value);
@@ -86,9 +114,16 @@ const UpdateMRP = () => {
             </div>
           </div>
 
-          {/* File */}
-          <div className="input-item lg:col-span-4 md:col-span-1 z-0">
-            <BlobUpload name={"List File"} setState={setFile} imageVar={file} />
+          {/* MRP Field*/}
+          <div className="lg:col-span-4">
+            <InputContainer
+              label={"File Name (Must be present in /public/assets/data/ )"}
+              value={file}
+              onChange={(event) => {
+                setFile(event.target.value);
+              }}
+              fullWidth={true}
+            />
           </div>
         </div>
         <div className="control-buttons mx-4 my-4">
