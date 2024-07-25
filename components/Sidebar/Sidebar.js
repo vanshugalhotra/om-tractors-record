@@ -18,7 +18,8 @@ import {
   IoIosApps,
   IoLogoBuffer,
   IoMdDesktop,
-  IoMdPodium
+  IoMdPodium,
+  IoIosCash,
 } from "react-icons/io";
 import { FaTractor } from "react-icons/fa";
 
@@ -167,11 +168,7 @@ const Sidebar = ({ handleLogout }) => {
             <div className="list-content py-2">
               <ul className="sidebar-nav-list">
                 {/* dashboard */}
-                <SidebarItem
-                  name="Dashboard"
-                  MenuIcon={IoMdDesktop}
-                  url="/"
-                />
+                <SidebarItem name="Dashboard" MenuIcon={IoMdDesktop} url="/" />
 
                 {/* records */}
                 <li>
@@ -285,6 +282,9 @@ const Sidebar = ({ handleLogout }) => {
                     <SubMenu key={name} name={name} MenuIcon={icon} url={url} />
                   ))}
                 </motion.ul>
+
+                {/* Update MRP */}
+                <SidebarItem name="Update MRP" MenuIcon={IoIosCash} url="/updatemrp" />
 
                 <li
                   onClick={() => {

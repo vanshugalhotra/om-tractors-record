@@ -10,7 +10,7 @@ export const useSidebar = () => useContext(SidebarContext);
 export const SidebarProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showRecordsSubMenu, setShowRecordsSubMenu] = useState(true);
-  const [showTypeSubMenu, setShowTypeSubMenu] = useState(true);
+  const [showTypeSubMenu, setShowTypeSubMenu] = useState(false);
   const [showBrandSubMenu, setShowBrandSubMenu] = useState(true);
   const sideBarData = {
     sideBarOpenWidth: "20vw",
