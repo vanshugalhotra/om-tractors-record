@@ -27,18 +27,24 @@ const handler = async (req, res) => {
       const sheet = workbook.Sheets[sheetName];
       const data = XLSX.utils.sheet_to_json(sheet);
 
-      // Extract the relevant columns
-      const updates = data.map((row) => ({
-        partNumber: row[nameField],
-        amount: row[mrpField],
-      }));
+      // Extract the relevant columns and convert part numbers to lowercase
+      const updates = data
+        .filter((row) => row[nameField] && row[mrpField]) // Ensure both fields exist
+        .map((row) => ({
+          partNumber: row[nameField].toLowerCase(),
+          amount: row[mrpField],
+        }));
 
       // Update the database and count the number of updates
       let updateCount = 0;
       for (const update of updates) {
         const result = await Product.updateOne(
-          { partNumber: update.partNumber },
-          { amount: update.amount, lastUpdated: new Date(date) }
+          {
+            $expr: {
+              $eq: [{ $toLower: "$partNumber" }, update.partNumber]
+            }
+          },
+          { amount: update.amount, lastUpdated: date }
         );
         if (result.matchedCount > 0) {
           updateCount++;
