@@ -42,7 +42,8 @@ const LoanDetails = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const api = `/api/product/getproducts?search=${branddetails.name}`;
+        const api = `/api/product/getproducts?search=${encodeURIComponent(branddetails.name)}`;
+
         const response = await fetchData(api);
         if (!response) {
           return;

@@ -7,7 +7,7 @@ const handler = async (req, res) => {
   if (req.method === "GET") {
     try {
       const { search, limit } = req.query;
-      const parsedLimit = limit ? parseInt(limit) : null; // Use null if limit is not provided or invalid
+      const parsedLimit = limit ? parseInt(limit, 10) : null; // Use null if limit is not provided
 
       const typeQuery = search
         ? { name: { $regex: search, $options: "i" } }
@@ -36,22 +36,34 @@ const handler = async (req, res) => {
           }
         : {};
 
-      let productsQuery = Product.find(productSearchQuery)
-        .populate({
-          path: "type",
-          select: "name color", // Specify the fields you want to populate
-        })
-        .populate({
-          path: "brand",
-          select: "name", // Specify the fields you want to populate for brand
-        })
-        .sort({ createdAt: -1 }); // Sort by createdAt in descending order
+      let products = [];
 
       if (parsedLimit) {
-        productsQuery = productsQuery.limit(parsedLimit); // Apply the limit if it's provided
+        // Build the query with the limit
+        products = await Product.find(productSearchQuery)
+          .populate({
+            path: "type",
+            select: "name color", // Specify the fields you want to populate
+          })
+          .populate({
+            path: "brand",
+            select: "name", // Specify the fields you want to populate for brand
+          })
+          .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+          .limit(parsedLimit); // Apply the limit
+      } else {
+        // Build the query with the limit
+        products = await Product.find(productSearchQuery)
+          .populate({
+            path: "type",
+            select: "name color", // Specify the fields you want to populate
+          })
+          .populate({
+            path: "brand",
+            select: "name", // Specify the fields you want to populate for brand
+          })
+          .sort({ createdAt: -1 }); // Sort by createdAt in descending order
       }
-
-      const products = await productsQuery;
 
       res.status(200).json(products);
     } catch (error) {

@@ -8,7 +8,13 @@ import Link from "next/link";
 import { fetchData } from "@/utils/dbFuncs";
 import { debounce } from "lodash";
 
-import { FaRegEye, FaRegTrashAlt, FaSearch, FaEdit, FaPlus } from "react-icons/fa";
+import {
+  FaRegEye,
+  FaRegTrashAlt,
+  FaSearch,
+  FaEdit,
+  FaPlus,
+} from "react-icons/fa";
 
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
@@ -25,6 +31,7 @@ const Records = () => {
 
   const router = useRouter();
 
+  // Fetch initial products with limit
   useEffect(() => {
     const fetchInitialProducts = async () => {
       try {
@@ -32,7 +39,7 @@ const Records = () => {
         const initProducts = await fetchData(api);
         setProducts(initProducts); // Set state with fetched data
       } catch (error) {
-        console.error("Error fetching initial Products:", error);
+        console.error("Error fetching initial products:", error);
         // Handle error if needed
       }
     };
@@ -40,12 +47,23 @@ const Records = () => {
     fetchInitialProducts(); // Invoke the async function to fetch data
   }, []); // Empty dependency array ensures it runs only once after initial render
 
-  // REACT STUFF
+  // Fetch search results if searchQuery is not blank
   useEffect(() => {
+    if (searchQuery.trim() === "") {
+      // Skip fetching if searchQuery is blank
+      return;
+    }
+
     const fetchResults = debounce(async () => {
-      const api = `/api/product/getproducts?search=${searchQuery}`;
-      const results = await fetchData(api);
-      setProducts(results);
+      try {
+        // Fetch results based on search query
+        const api = `/api/product/getproducts?search=${searchQuery}`;
+        const results = await fetchData(api);
+        setProducts(results);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+        // Handle error if needed
+      }
     }, 500); // Adjust the debounce delay as needed
 
     fetchResults();
