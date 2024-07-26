@@ -41,8 +41,8 @@ const handler = async (req, res) => {
         const result = await Product.updateOne(
           {
             $expr: {
-              $eq: [{ $toLower: "$partNumber" }, update.partNumber]
-            }
+              $eq: [{ $toLower: "$partNumber" }, update.partNumber],
+            },
           },
           { amount: update.amount, lastUpdated: date }
         );
