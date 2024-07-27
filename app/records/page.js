@@ -95,7 +95,6 @@ const Records = () => {
       typeID: type._id,
       brandID: brand._id,
     };
-    console.log(data);
     const queryParams = Object.keys(data)
       .map((key) => {
         const encodedKey = `encoded_${encodeURIComponent(key)}`;
@@ -249,7 +248,9 @@ const Records = () => {
                           <td className="table-data">{code}</td>
                           <td className="table-data">{description}</td>
                           <td className="table-data">{type.name}</td>
-                          <td className="table-data">{brand.name}</td>
+                          <td className="table-data">
+                            {brand ? brand.name : ""}
+                          </td>
                           <td className="table-data space-y-2">
                             <div
                               className="action-icon"

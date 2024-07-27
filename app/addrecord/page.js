@@ -137,7 +137,6 @@ const AddProduct = () => {
 
       // All uploads successful, proceed to save data in database
       const response = await postData(METHOD, data, api);
-      console.log(response);
       if (response.success) {
         let message = _id
           ? "Product Updated Successfully!!"
