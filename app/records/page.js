@@ -146,7 +146,9 @@ const Records = () => {
   const handleSortChange = (event) => {
     const selectedSortOption = event.target.value;
     setSortOption(selectedSortOption);
-    const sort = sortOptions.find(option => option.title === selectedSortOption);
+    const sort = sortOptions.find(
+      (option) => option.title === selectedSortOption
+    );
     if (sort) {
       sort.todo();
     }
@@ -155,26 +157,25 @@ const Records = () => {
   const sortOptions = [
     {
       title: "Recently Added First",
-      todo: () => setSortOption("recentlyAddedFirst")
+      todo: () => setSortOption("recentlyAddedFirst"),
     },
     {
       title: "Recently Added Last",
-      todo: () => setSortOption("recentlyAddedLast")
+      todo: () => setSortOption("recentlyAddedLast"),
     },
     {
       title: "Recently Modified First",
-      todo: () => setSortOption("recentlyModifiedFirst")
+      todo: () => setSortOption("recentlyModifiedFirst"),
     },
     {
       title: "Recently Modified Last",
-      todo: () => setSortOption("recentlyModifiedLast")
+      todo: () => setSortOption("recentlyModifiedLast"),
     },
     {
       title: "Wrong Part Numbers",
-      todo: () => setSortOption("wrongPartNumbers")
-    }
+      todo: () => setSortOption("wrongPartNumbers"),
+    },
   ];
-  
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
@@ -214,7 +215,9 @@ const Records = () => {
               onChange={handleSortChange}
               value={sortOption}
             >
-              <option value="">Sort By</option>
+              <option value="">
+                {sortOption === "" ? "Sort By" : sortOption}
+              </option>
               {sortOptions.map((option, index) => (
                 <option key={index} value={option.title}>
                   {option.title}
