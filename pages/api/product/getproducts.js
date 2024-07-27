@@ -6,7 +6,7 @@ import connectDb from "@/db/mongoose";
 const handler = async (req, res) => {
   if (req.method === "GET") {
     try {
-      const { search, limit } = req.query;
+      const { search, limit, sort } = req.query;
       const parsedLimit = limit ? parseInt(limit, 10) : null; // Use null if limit is not provided
 
       const typeQuery = search
@@ -36,6 +36,31 @@ const handler = async (req, res) => {
           }
         : {};
 
+      let sortOption = { createdAt: -1 }; // Default sorting
+
+      if (sort) {
+        switch (sort) {
+          case "recentlyAddedFirst":
+            sortOption = { createdAt: -1 };
+            break;
+          case "recentlyAddedLast":
+            sortOption = { createdAt: 1 };
+            break;
+          case "recentlyModifiedFirst":
+            sortOption = { updatedAt: -1 };
+            break;
+          case "recentlyModifiedLast":
+            sortOption = { updatedAt: 1 };
+            break;
+          case "wrongPartNumbers":
+            // Sort by amount where amount is 0 first
+            sortOption = { amount: 1 }; // Sort by amount, ascending
+            break;
+          default:
+            break;
+        }
+      }
+
       let products = [];
 
       if (parsedLimit) {
@@ -49,10 +74,10 @@ const handler = async (req, res) => {
             path: "brand",
             select: "name", // Specify the fields you want to populate for brand
           })
-          .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+          .sort(sortOption) // Apply the sort option
           .limit(parsedLimit); // Apply the limit
       } else {
-        // Build the query with the limit
+        // Build the query without the limit
         products = await Product.find(productSearchQuery)
           .populate({
             path: "type",
@@ -62,7 +87,7 @@ const handler = async (req, res) => {
             path: "brand",
             select: "name", // Specify the fields you want to populate for brand
           })
-          .sort({ createdAt: -1 }); // Sort by createdAt in descending order
+          .sort(sortOption); // Apply the sort option
       }
 
       res.status(200).json(products);

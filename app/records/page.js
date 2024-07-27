@@ -28,6 +28,7 @@ const Records = () => {
   const [products, setProducts] = useState([]);
   const [selectedProductID, setSelectedProductID] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [sortOption, setSortOption] = useState("");
 
   const router = useRouter();
 
@@ -35,7 +36,7 @@ const Records = () => {
   useEffect(() => {
     const fetchInitialProducts = async () => {
       try {
-        const api = "/api/product/getproducts?limit=10";
+        const api = "/api/product/getproducts?limit=20";
         const initProducts = await fetchData(api);
         setProducts(initProducts); // Set state with fetched data
       } catch (error) {
@@ -49,15 +50,15 @@ const Records = () => {
 
   // Fetch search results if searchQuery is not blank
   useEffect(() => {
-    if (searchQuery.trim() === "") {
-      // Skip fetching if searchQuery is blank
+    if (searchQuery.trim() === "" && sortOption === "") {
+      // Skip fetching if searchQuery and sortOption are both blank
       return;
     }
 
     const fetchResults = debounce(async () => {
       try {
-        // Fetch results based on search query
-        const api = `/api/product/getproducts?search=${searchQuery}`;
+        // Fetch results based on search query and sort option
+        const api = `/api/product/getproducts?search=${searchQuery}&sort=${sortOption}`;
         const results = await fetchData(api);
         setProducts(results);
       } catch (error) {
@@ -67,7 +68,7 @@ const Records = () => {
     }, 500); // Adjust the debounce delay as needed
 
     fetchResults();
-  }, [searchQuery]);
+  }, [searchQuery, sortOption]);
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
@@ -142,6 +143,39 @@ const Records = () => {
     }
   };
 
+  const handleSortChange = (event) => {
+    const selectedSortOption = event.target.value;
+    setSortOption(selectedSortOption);
+    const sort = sortOptions.find(option => option.title === selectedSortOption);
+    if (sort) {
+      sort.todo();
+    }
+  };
+
+  const sortOptions = [
+    {
+      title: "Recently Added First",
+      todo: () => setSortOption("recentlyAddedFirst")
+    },
+    {
+      title: "Recently Added Last",
+      todo: () => setSortOption("recentlyAddedLast")
+    },
+    {
+      title: "Recently Modified First",
+      todo: () => setSortOption("recentlyModifiedFirst")
+    },
+    {
+      title: "Recently Modified Last",
+      todo: () => setSortOption("recentlyModifiedLast")
+    },
+    {
+      title: "Wrong Part Numbers",
+      todo: () => setSortOption("wrongPartNumbers")
+    }
+  ];
+  
+
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
       {loading && <Loading />}
@@ -161,17 +195,42 @@ const Records = () => {
           </span>
         </Link>
       </div>
-      <div className="my-8 rounded-lg border-2 border-gray-200 border-opacity-70 pb-8 shadow-sm">
-        <div className="top-section py-6 px-4 flex flex-col md:flex-row justify-between items-center">
-          <div className="search-bar w-full border-gray-300">
-            <FaSearch className="inline-flex text-gray-500 rounded-full cursor-pointer mx-2 up-icon" />
+      <div className="my-8 rounded-lg border-2 border-gray-200 border-opacity-70 pb-8 shadow-sm w-full">
+        <div className="top-section py-6 px-4 flex flex-col md:flex-row justify-between items-center w-full">
+          <div className="search-bar w-full flex items-center border border-gray-300 rounded-lg overflow-hidden">
+            <FaSearch className="inline-flex text-gray-500 cursor-pointer mx-2" />
             <input
               type="text"
               placeholder="Search..."
-              className="search-bar-input"
+              className="w-full py-2 px-3 focus:outline-none"
               value={searchQuery}
               onChange={handleSearchInputChange}
             />
+          </div>
+
+          <div className="mt-6 md:mt-0 md:ml-4 relative">
+            <select
+              className="appearance-none bg-white border border-gray-300 rounded-lg py-2 px-4 pr-8 cursor-pointer focus:outline-none focus:border-orange-500"
+              onChange={handleSortChange}
+              value={sortOption}
+            >
+              <option value="">Sort By</option>
+              {sortOptions.map((option, index) => (
+                <option key={index} value={option.title}>
+                  {option.title}
+                </option>
+              ))}
+            </select>
+
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg
+                className="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M5.293 7.293l3.293 3.293 3.293-3.293 1.414 1.414-4.707 4.707-4.707-4.707z" />
+              </svg>
+            </div>
           </div>
         </div>
       </div>
