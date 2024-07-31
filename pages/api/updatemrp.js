@@ -71,7 +71,15 @@ const handler = async (req, res) => {
                 $eq: [{ $toLower: "$partNumber" }, update.partNumber],
               },
             },
-            { amount: update.amount, lastUpdated: date }
+            [
+              {
+                $set: {
+                  oldMRP: "$amount",
+                  amount: update.amount,
+                  lastUpdated: date,
+                },
+              },
+            ]
           );
           if (result.matchedCount > 0) {
             updateCount++;
