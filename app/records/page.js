@@ -279,7 +279,7 @@ const Records = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.length &&
+                {products.length > 0 &&
                   products.map(
                     (
                       {
@@ -302,8 +302,13 @@ const Records = () => {
                           style={{ backgroundColor: type.color }}
                           key={_id}
                         >
-                          <td className="table-data text-gray-900 font-semibold">
-                            {index + 1}.)
+                          <td className="table-data text-gray-900 font-semibold flex flex-col items-center">
+                            {brand.original && (
+                              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md mb-1">
+                                ORG
+                              </span>
+                            )}
+                            <span>{index + 1}.)</span>
                           </td>
                           <td className="table-data">{productName}</td>
                           <td className="table-data">{partNumber}</td>
@@ -311,12 +316,13 @@ const Records = () => {
                             <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md">
                               ₹ {oldMRP}
                             </span>
-                            <span className="text-gray-500 mx-2 font-extrabold">{"→"}</span>
+                            <span className="text-gray-500 mx-2 font-extrabold">
+                              {"→"}
+                            </span>
                             <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md font-bold">
                               ₹ {amount}
                             </span>
                           </td>
-
                           <td className="table-data">
                             {formatDate(lastUpdated)}
                           </td>
