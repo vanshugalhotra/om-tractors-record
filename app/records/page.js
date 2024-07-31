@@ -36,12 +36,15 @@ const Records = () => {
   useEffect(() => {
     const fetchInitialProducts = async () => {
       try {
+        startLoading();
         const api = "/api/product/getproducts?limit=20";
         const initProducts = await fetchData(api);
         setProducts(initProducts); // Set state with fetched data
       } catch (error) {
         console.error("Error fetching initial products:", error);
         // Handle error if needed
+      } finally {
+        stopLoading();
       }
     };
 
