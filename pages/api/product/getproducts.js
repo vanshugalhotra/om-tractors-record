@@ -85,7 +85,7 @@ const handler = async (req, res) => {
           })
           .populate({
             path: "brand",
-            select: "name", // Specify the fields you want to populate for brand
+            select: "name original", // Specify the fields you want to populate for brand
           })
           .sort(sortOption); // Apply the sort option
       }
