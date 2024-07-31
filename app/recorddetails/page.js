@@ -47,7 +47,7 @@ const RecordDetails = () => {
       },
       {
         title: "MRP (₹)",
-        value: `₹ ${productdetails.amount}`,
+        value: `₹ ${productdetails.oldMRP}    →   ₹ ${productdetails.amount}  `,
       },
       {
         title: "Last Updated",

@@ -34,6 +34,10 @@ const productSchema = new mongoose.Schema(
     lastUpdated: {
       type: Date,
     },
+    oldMRP: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true, // Enable timestamps

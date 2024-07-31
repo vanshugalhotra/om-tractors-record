@@ -154,6 +154,7 @@ const TypeDetails = () => {
                               brand,
                               lastUpdated,
                               amount,
+                              oldMRP,
                             },
                             index
                           ) => {
@@ -167,7 +168,17 @@ const TypeDetails = () => {
                                 </td>
                                 <td className="table-data">{productName}</td>
                                 <td className="table-data">{partNumber}</td>
-                                <td className="table-data">{`₹ ${amount}`}</td>
+                                <td className="table-data flex flex-col md:flex-row items-center justify-between space-y-1 md:space-y-0 md:space-x-2">
+                                  <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md">
+                                    ₹ {oldMRP}
+                                  </span>
+                                  <span className="text-gray-500 mx-2 font-extrabold">
+                                    {"→"}
+                                  </span>
+                                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md font-bold">
+                                    ₹ {amount}
+                                  </span>
+                                </td>
                                 <td className="table-data">
                                   {formatDate(lastUpdated)}
                                 </td>
