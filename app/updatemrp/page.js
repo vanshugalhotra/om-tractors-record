@@ -19,6 +19,7 @@ const UpdateMRP = () => {
 
   const [nameField, setNameField] = useState("");
   const [mrpField, setMrpField] = useState("");
+  const [alternate, setAlternate] = useState("");
   const [date, setDate] = useState(new Date());
   const [file, setFile] = useState("");
 
@@ -42,6 +43,7 @@ const UpdateMRP = () => {
         mrpField,
         fileName: file, // Name of the file you placed in the public directory
         date,
+        alternateNameField: alternate,
       };
 
       // Use the postData function to submit the data
@@ -53,7 +55,7 @@ const UpdateMRP = () => {
           "success",
           `MRP updated successfully!\nTotal Records Updated: ${result.updatedCount}`
         );
-        router.push("/");
+        router.push("/records");
       } else {
         raiseToast("error", result.error || "Something went wrong!");
       }
@@ -101,9 +103,20 @@ const UpdateMRP = () => {
               fullWidth={true}
             />
           </div>
+          {/* Alternate Part Number*/}
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"Alternate Field (Optional)"}
+              value={alternate}
+              onChange={(event) => {
+                setAlternate(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
 
           {/*Last Updated*/}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-1">
             <div className="input-item">
               <label htmlFor="dob" className="input-label">
                 Last Updated
@@ -114,7 +127,7 @@ const UpdateMRP = () => {
             </div>
           </div>
 
-          {/* MRP Field*/}
+          {/* File Field*/}
           <div className="lg:col-span-4">
             <InputContainer
               label={"File Name (Must be present in /public/assets/data/ )"}

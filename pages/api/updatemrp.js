@@ -11,7 +11,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const handler = async (req, res) => {
   if (req.method === "POST") {
     try {
-      const { nameField, mrpField, fileName, date } = req.body;
+      const { nameField, alternateNameField, mrpField, fileName, date } = req.body;
 
       // Load the Excel file from the public directory
       const filePath = path.join(
@@ -34,9 +34,9 @@ const handler = async (req, res) => {
 
       // Extract the relevant columns and convert part numbers to lowercase
       const updates = data
-        .filter((row) => row[nameField] && row[mrpField]) // Ensure both fields exist
+        .filter((row) => (row[nameField] || row[alternateNameField]) && row[mrpField]) // Ensure both fields exist
         .map((row) => ({
-          partNumber: String(row[nameField]).toLowerCase(),
+          partNumber: String(row[nameField] || row[alternateNameField]).toLowerCase(),
           amount: row[mrpField],
         }));
 
