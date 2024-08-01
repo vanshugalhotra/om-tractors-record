@@ -107,12 +107,7 @@ const Records = () => {
       })
       .join("&");
 
-    let url = "";
-    if (_id) {
-      url = `/records`;
-    } else {
-      url = `/addrecord?${queryParams}`;
-    }
+    const url = `/addrecord?${queryParams}`;
 
     router.push(url);
   };

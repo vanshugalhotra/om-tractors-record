@@ -148,7 +148,11 @@ const AddProduct = () => {
           setAmount(0);
           setCode("");
           setDescription("");
-          router.push("/addrecord");
+          if (_id) {
+            router.push("/records");
+          } else {
+            router.push("/addrecord");
+          }
         }, 1500);
       } else {
         raiseToast("info", "Product Already Exists!!");
