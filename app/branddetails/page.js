@@ -168,6 +168,7 @@ const LoanDetails = () => {
                               lastUpdated,
                               amount,
                               oldMRP,
+                              discont,
                             },
                             index
                           ) => {
@@ -176,8 +177,15 @@ const LoanDetails = () => {
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                 key={_id}
                               >
-                                <td className="table-data text-gray-900 font-semibold">
-                                  {index + 1}.)
+                                <td className="table-data text-gray-900 font-semibold flex flex-col items-center">
+                                  <div className="flex items-center space-x-2 mb-1">
+                                    {discont && (
+                                      <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md">
+                                        Discont.
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span>{index + 1}.)</span>
                                 </td>
                                 <td className="table-data">{productName}</td>
                                 <td className="table-data">{partNumber}</td>
