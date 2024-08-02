@@ -41,6 +41,12 @@ const AddProduct = () => {
   const [description, setDescription] = useState(
     searchParams.get("encoded_description") ?? ""
   );
+
+  // Convert searchParams value to boolean
+  const [discont, setDiscont] = useState(
+    searchParams.get("encoded_discont") === "true"
+  );
+
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
   const [productCount, setProductCount] = useState("");
@@ -123,6 +129,7 @@ const AddProduct = () => {
         code,
         description,
         lastUpdated,
+        discont
       };
 
       let METHOD = "POST";
@@ -275,6 +282,24 @@ const AddProduct = () => {
                   selectedDate={lastUpdated}
                   onChange={handleDateChange}
                 />
+              </div>
+            </div>
+          </div>
+
+          {/* Discont */}
+          <div className="lg:col-span-1">
+            <div className="input-item">
+              <label className="input-label uppercase">Discontinued</label>
+              <div className="relative my-4 flex items-center">
+                <input
+                  type="checkbox"
+                  checked={discont}
+                  onChange={(event) => {
+                    setDiscont(event.target.checked);
+                  }}
+                  className="w-5 h-5 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500"
+                />
+                <span className="ml-2 text-gray-700">Discontinued</span>
               </div>
             </div>
           </div>

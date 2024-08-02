@@ -85,7 +85,8 @@ const Records = () => {
     type,
     brand,
     code,
-    description
+    description,
+    discont
   ) => {
     const data = {
       _id: _id,
@@ -98,6 +99,7 @@ const Records = () => {
       description: description,
       typeID: type._id,
       brandID: brand._id,
+      discont: discont
     };
     const queryParams = Object.keys(data)
       .map((key) => {
@@ -159,6 +161,10 @@ const Records = () => {
 
   const sortOptions = [
     {
+      title: "Wrong Part Numbers",
+      todo: () => setSortOption("wrongPartNumbers"),
+    },
+    {
       title: "Recently Added First",
       todo: () => setSortOption("recentlyAddedFirst"),
     },
@@ -173,10 +179,6 @@ const Records = () => {
     {
       title: "Recently Modified Last",
       todo: () => setSortOption("recentlyModifiedLast"),
-    },
-    {
-      title: "Wrong Part Numbers",
-      todo: () => setSortOption("wrongPartNumbers"),
     },
   ];
 
@@ -293,81 +295,91 @@ const Records = () => {
                         description,
                         lastUpdated,
                         oldMRP,
+                        discont
                       },
                       index
                     ) => {
                       return (
                         <tr
-                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          style={{ backgroundColor: type.color }}
-                          key={_id}
-                        >
-                          <td className="table-data text-gray-900 font-semibold flex flex-col items-center">
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        style={{ backgroundColor: type.color }}
+                        key={_id}
+                      >
+                        <td className="table-data text-gray-900 font-semibold flex flex-col items-center">
+                          <div className="flex items-center space-x-2 mb-1">
                             {brand.original && (
-                              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md mb-1">
+                              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md">
                                 ORG
                               </span>
                             )}
-                            <span>{index + 1}.)</span>
-                          </td>
-                          <td className="table-data">{productName}</td>
-                          <td className="table-data">{partNumber}</td>
-                          <td className="table-data flex flex-col md:flex-row items-center justify-between space-y-1 md:space-y-0 md:space-x-2">
-                            <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md">
-                              ₹ {oldMRP}
-                            </span>
-                            <span className="text-gray-500 mx-2 font-extrabold">
-                              {"→"}
-                            </span>
-                            <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md font-bold">
-                              ₹ {amount}
-                            </span>
-                          </td>
-                          <td className="table-data">
-                            {formatDate(lastUpdated)}
-                          </td>
-                          <td className="table-data">{code}</td>
-                          <td className="table-data">{description}</td>
-                          <td className="table-data">{type.name}</td>
-                          <td className="table-data">
-                            {brand ? brand.name : ""}
-                          </td>
-                          <td className="table-data space-y-2">
-                            <div
-                              className="action-icon"
-                              onClick={() => {
-                                router.push(`/recorddetails?_id=${_id}`);
-                              }}
-                            >
-                              <FaRegEye className="normal-icon" />
-                            </div>
-                            <div
-                              className="action-icon"
-                              onClick={() => {
-                                handleUpdate(
-                                  _id,
-                                  productName,
-                                  amount,
-                                  partNumber,
-                                  type,
-                                  brand,
-                                  code,
-                                  description
-                                );
-                              }}
-                            >
-                              <FaEdit className="normal-icon mx-1" />
-                            </div>
-                            <div
-                              className="inline-block text-red-500 up-icon hover:text-red-700"
-                              onClick={() => {
-                                handleDelete(_id);
-                              }}
-                            >
-                              <FaRegTrashAlt className="normal-icon" />
-                            </div>
-                          </td>
-                        </tr>
+                            {discont && (
+                              <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md">
+                                Discont.
+                              </span>
+                            )}
+                          </div>
+                          <span>{index + 1}.)</span>
+                        </td>
+                        <td className="table-data">{productName}</td>
+                        <td className="table-data">{partNumber}</td>
+                        <td className="table-data flex flex-col md:flex-row items-center justify-between space-y-1 md:space-y-0 md:space-x-2">
+                          <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md">
+                            ₹ {oldMRP}
+                          </span>
+                          <span className="text-gray-500 mx-2 font-extrabold">
+                            {"→"}
+                          </span>
+                          <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md font-bold">
+                            ₹ {amount}
+                          </span>
+                        </td>
+                        <td className="table-data">
+                          {formatDate(lastUpdated)}
+                        </td>
+                        <td className="table-data">{code}</td>
+                        <td className="table-data">{description}</td>
+                        <td className="table-data">{type.name}</td>
+                        <td className="table-data">
+                          {brand ? brand.name : ""}
+                        </td>
+                        <td className="table-data space-y-2">
+                          <div
+                            className="action-icon"
+                            onClick={() => {
+                              router.push(`/recorddetails?_id=${_id}`);
+                            }}
+                          >
+                            <FaRegEye className="normal-icon" />
+                          </div>
+                          <div
+                            className="action-icon"
+                            onClick={() => {
+                              handleUpdate(
+                                _id,
+                                productName,
+                                amount,
+                                partNumber,
+                                type,
+                                brand,
+                                code,
+                                description,
+                                discont
+                              );
+                            }}
+                          >
+                            <FaEdit className="normal-icon mx-1" />
+                          </div>
+                          <div
+                            className="inline-block text-red-500 up-icon hover:text-red-700"
+                            onClick={() => {
+                              handleDelete(_id);
+                            }}
+                          >
+                            <FaRegTrashAlt className="normal-icon" />
+                          </div>
+                        </td>
+                      </tr>
+                      
                       );
                     }
                   )}
