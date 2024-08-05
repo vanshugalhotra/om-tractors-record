@@ -16,9 +16,13 @@ const handler = async (req, res) => {
       const types = await Type.find(typeQuery);
       const typeIDs = types.map((type) => type._id);
 
-      const brandQuery = search
+      let brandQuery = search
         ? { name: { $regex: search, $options: "i" } }
         : {};
+
+      if (sort === "wrongPartNumbers") {
+        brandQuery = { ...brandQuery, original: true };
+      }
 
       const brands = await Brand.find(brandQuery);
       const brandIDs = brands.map((brand) => brand._id);
@@ -35,6 +39,11 @@ const handler = async (req, res) => {
             ],
           }
         : {};
+
+      if (sort === "wrongPartNumbers") {
+        productSearchQuery.amount = 0;
+        productSearchQuery.brand = { $in: brandIDs };
+      }
 
       let sortOption = { createdAt: -1 }; // Default sorting
 
