@@ -71,45 +71,56 @@ const AddBrand = () => {
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
       {loading && <Loading />}
-      <div className="top flex items-center justify-between">
-        <div className="left">
-          <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
-            Add Brand
-          </h2>
-          <p className="text-xs text-gray-600 py-1 tracking-wide">
-            Add New Brand
-          </p>
-        </div>
-      </div>
-      <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
-        <div className="inputs grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
-          {/* Brand Name*/}
-          <div className="lg:col-span-4">
-            <InputContainer
-              label={"Brand Name"}
-              value={brandName}
-              onChange={(event) => {
-                setBrandName(event.target.value);
-              }}
-              fullWidth={true}
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-2xl font-semibold text-gray-900">Add Brand</h2>
+        <Link href="/" className="text-sm text-gray-600 hover:text-gray-800">
+          <svg
+            className="w-5 h-5 inline-block mr-1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M7.293 9.293a1 1 0 011.414 0L10 9.586l1.293-1.293a1 1 0 111.414 1.414L11 11l1.293 1.293a1 1 0 01-1.414 1.414L10 12.414l-1.293 1.293a1 1 0 01-1.414-1.414L9.586 11 8.293 9.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
             />
-          </div>
+          </svg>
+          Back to Home
+        </Link>
+      </div>
+      <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        <h3 className="text-xl font-medium text-gray-800 mb-4">
+          { _id ? 'Update Brand' : 'Add New Brand' }
+        </h3>
+        <div className="grid lg:grid-cols-2 gap-6">
+          {/* Brand Name */}
+          <InputContainer
+            label={"Brand Name"}
+            value={brandName}
+            onChange={(event) => {
+              setBrandName(event.target.value);
+            }}
+            fullWidth={true}
+          />
 
           {/* Logo */}
-          <div className="input-item lg:col-span-4 md:col-span-1 z-0">
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-600 mb-2">Logo</label>
             <BlobUpload name={"Logo"} setState={setLogo} imageVar={logo} />
           </div>
         </div>
-        <div className="control-buttons mx-4 my-4">
-          <div
-            className="primary-btn bg-orange-400 hover:bg-orange-500"
+        <div className="mt-6 flex justify-between">
+          <button
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg"
             onClick={submit}
           >
-            Submit
-          </div>
+            { _id ? 'Update' : 'Submit' }
+          </button>
           <Link
             href={"/"}
-            className="primary-btn bg-gray-500 hover:bg-gray-600"
+            className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg text-center"
           >
             Cancel
           </Link>
